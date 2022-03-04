@@ -52,13 +52,13 @@ for two_power in range(2,8):
 
 with open('./saved_results.txt', 'w') as f:
     f.write("NORMAL\n")
-    f.write(f"{','.join(list(map(str, SIZE_NORMAL)))}")
-    f.write(f"{','.join(list(map(str, TIME_NORMAL)))}")
-    f.write(f"{','.join(list(map(str, OPCOUNT_NORMAL)))}")
-    f.write("STRASSEM\n")
-    f.write(f"{','.join(list(map(str, SIZE_STRASSEN)))}")
-    f.write(f"{','.join(list(map(str, TIME_STRASSEN)))}")
-    f.write(f"{','.join(list(map(str, OPCOUNT_STRASSEN)))}")
+    f.write(f"{','.join(list(map(str, SIZE_NORMAL)))}\n")
+    f.write(f"{','.join(list(map(str, TIME_NORMAL)))}\n")
+    f.write(f"{','.join(list(map(str, OPCOUNT_NORMAL)))}\n")
+    f.write("\nSTRASSEM\n")
+    f.write(f"{','.join(list(map(str, SIZE_STRASSEN)))}\n")
+    f.write(f"{','.join(list(map(str, TIME_STRASSEN)))}\n")
+    f.write(f"{','.join(list(map(str, OPCOUNT_STRASSEN)))}\n")
 
 fig, axs = plt.subplots(2, 2)
 fig.suptitle('First row normal, second row strassen')
