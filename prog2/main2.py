@@ -9,6 +9,7 @@ from matplotlib import pyplot as plt
 
 def inv(A, mult_function):
     if len(A) == 1:
+        if A[0][0] == 0: return A
         A[0][0] = 1/A[0][0]
         return A
 
