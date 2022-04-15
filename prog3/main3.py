@@ -96,13 +96,21 @@ stat_normal = StatGatherer('NORMAL')
 
 functions = [mat_mul_normal, mat_mul_strassen]
 
-for two_power in range(3,4):
+for two_power in range(2,11):
     for f in functions:
-        A = np.random.rand(2**two_power,2**two_power)
+        success, iteration = False, 0
 
-        start = time_ns()
-        C = inv(A, f)
-        mesured_time = time_ns() - start
+        while not success:
+            try:
+                A = np.random.rand(2**two_power,2**two_power)
+
+                start = time_ns()
+                C = inv(A, f)
+                mesured_time = time_ns() - start
+                success = True
+            except Exception:
+                iteration += 1
+                if iteration%50==0: print(f"Failed {iteration} times.")
         
         print(f"Size: {2**two_power}, name: {f.__name__}, time: {mesured_time}, op_count: {counter.get()}")
         if f.__name__=='mat_mul_normal':
