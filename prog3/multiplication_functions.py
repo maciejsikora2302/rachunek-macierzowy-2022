@@ -3,6 +3,7 @@ from common import *
 
 
 def mat_mul_normal(A, B):
+    assert len(A) == len(B)
     global test
     out = [[0 for _ in range(len(A))] for _ in range(len(A))]
     for row in range(len(A)):
@@ -36,6 +37,7 @@ def subtract(A, B):
 
 
 def mat_mul_strassenR(A, B, treshold = 4):
+    assert len(A) == len(B)
     """
         Implementation of the strassen algorithm.
     """

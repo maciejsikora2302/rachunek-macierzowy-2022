@@ -13,25 +13,38 @@ from inversion import *
 
 def lu_factorization(A, mult=mat_mul_strassen):
     if len(A) == 1:
+        # print("returning", A)
         return np.array([[1]]), np.array(A)
 
     #Array slicing
     n = int(len(A)/2)
     A = np.array(A)
     a11 = A[:n, :n]
-    a12 = A[n:, :n]
-    a21 = A[:n, n:]
+    a21 = A[n:, :n]
+    a12 = A[:n, n:]
     a22 = A[n:, n:]
+
+    # print("Sliced")
+    # print(a11)
+    # print(a12)
+    # print(a21)
+    # print(a22)
 
     #Steps according to slides provided by profesor
 
     #Step 1
+    # print('b ',len(a11))
     l11, u11 = lu_factorization(a11, mult)
+    # print('a ',len(l11), len(u11), l11, u11)
 
     #Step 2
+    # print(u11)
     u11_inv = inv(u11, mult)
+    # print(len(u11_inv))
 
     #Step 3
+    # print("a",a21)
+    # print("b",u11_inv)
     l21 = mult(a21, u11_inv)
 
     #Step 4
@@ -48,16 +61,23 @@ def lu_factorization(A, mult=mat_mul_strassen):
     _, u22 = lu_factorization(S, mult)
 
 
-    placeholder_l = np.zeros(n,n)
-    placeholder_u = np.zeros(n,n)
+    placeholder_l = np.zeros((2*n,2*n))
+    placeholder_u = np.zeros((2*n,2*n))
+
+
+    # a11 = A[:n, :n]
+    # a21 = A[n:, :n]
+    # a12 = A[:n, n:]
+    # a22 = A[n:, n:]
+
 
     placeholder_l[:n, :n] = l11
     # placeholder_l[n:, :n] = A[n:, :n]
-    placeholder_l[:n, n:] = l21
+    placeholder_l[n:, :n] = l21
     placeholder_l[n:, n:] = l22
 
     placeholder_u[:n, :n] = u11
-    placeholder_u[n:, :n] = u12
+    placeholder_u[:n, n:] = u12
     # placeholder_u[:n, n:] = l21
     placeholder_u[n:, n:] = u22
 
@@ -103,12 +123,13 @@ for two_power in range(2,11):
         while not success:
             try:
                 A = np.random.rand(2**two_power,2**two_power)
-
+                # print("Initial matirx", A)
                 start = time_ns()
-                C = inv(A, f)
+                C = lu_factorization(A, f)
                 mesured_time = time_ns() - start
                 success = True
-            except Exception:
+            except Exception as e:
+                # raise e
                 iteration += 1
                 if iteration%50==0: print(f"Failed {iteration} times.")
         
